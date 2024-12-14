@@ -1,0 +1,11 @@
+
+<script>
+    const username = localStorage.getItem('username');
+    if (username) {
+        const header = document.querySelector('header nav ul');
+        const welcomeMessage = document.createElement('li');
+        welcomeMessage.textContent = `مرحبًا، ${username}!`;
+        header.appendChild(welcomeMessage);
+    }
+</script>
+<script src="../js/scripts.js"></script>

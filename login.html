@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://cdn.discordapp.com/attachments/1218265466573950989/1311009119259328600/FLONA_SWETS.png?ex=675f06e3&is=675db563&hm=c1b980426f30c33c8800dce2e75d89286f92204dc0113e10c0c7cf458b283bb5&" alt="FLONA SWETS💜 شعار">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="products.html">منتجاتنا</a></li>
+                <li><a href="contact.html">اتصل بنا</a></li>
+                <li><a href="login.html">تسجيل الدخول</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section>
+        <button onclick="checkout()"h1>لتسجيل الدخول</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">الاسم الكامل:</label>
+                <input type="text" id="username" name="username" placeholder="أدخل اسمك الكامل" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">رقم الهاتف:</label>
+                <input type="tel" id="phone" name="phone" placeholder="أدخل رقم هاتفك" required pattern="[0-9]{10}">
+            </div>
+            <button type="submit">تسجيل الدخول</button>
+        </form>
+        <p id="login-message" style="color: green; display: none;">تم تسجيل الدخول بنجاح!</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 FLONA SWETS💜. جميع الحقوق محفوظة.</p>
+    </footer>
+    <script src="../js/login.js"></script>
+</body>
+</html>
