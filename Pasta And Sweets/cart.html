@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سلة المشتريات - FLONA SWETS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .cart-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        .cart-table th, .cart-table td {
+            padding: 1rem;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+        }
+        .cart-table th {
+            background-color: #f8f9fa;
+        }
+        .remove-item {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .payment-info {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .payment-info h2 {
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .expiry-cvv {
+            display: flex;
+            gap: 1rem;
+        }
+        .expiry-cvv > div {
+            flex: 1;
+        }
+        .checkout-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+        .total-amount {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: left;
+            margin: 1rem 0;
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .payment-method {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary-color);
+        }
+
+        .payment-method input[type="radio"] {
+            display: none;
+        }
+
+        .payment-method label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .payment-method input[type="radio"]:checked + label {
+            color: var(--primary-color);
+        }
+
+        .payment-method:has(input[type="radio"]:checked) {
+            border-color: var(--primary-color);
+            background: #fff5f5;
+        }
+
+        .card-details {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .customer-info {
+            margin-top: 2rem;
+        }
+
+        .customer-info h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://cdn.discordapp.com/attachments/1218265466573950989/1311009119259328600/FLONA_SWETS.png?ex=676ed8e3&is=676d8763&hm=21c82367544d5f71bf2be9968f11a6dbe676b679b2d60e310dcc124e2df3bda7&" alt="FLONA SWETS">
+            </div>
+            <button class="mobile-menu-toggle" aria-label="القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-buttons">
+                    <a href="index.html" class="nav-button">الصفحة الرئيسية</a>
+                    <a href="cart.html" class="nav-button cart active">السلة<span class="cart-count">0</span></a>
+                    <a href="contact.html" class="nav-button">اتصل بنا</a>
+                    <a href="login.html" class="nav-button">تسجيل حساب</a>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="cart-container">
+        <h1>سلة المشتريات</h1>
+        
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>المنتج</th>
+                    <th>السعر</th>
+                    <th>الكمية</th>
+                    <th>المجموع</th>
+                    <th>العمليات</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <div class="total-amount">
+            المجموع الكلي: 0.0 دينار
+        </div>
+
+        <div class="payment-section">
+            <h3>طريقة الدفع</h3>
+            <div class="payment-methods">
+                <div class="payment-method">
+                    <input type="radio" id="cash" name="paymentMethod" value="cash" checked>
+                    <label for="cash">
+                        <i class="fas fa-money-bill-wave"></i>
+                        الدفع نقداً
+                    </label>
+                </div>
+                <div class="payment-method">
+                    <input type="radio" id="card" name="paymentMethod" value="card">
+                    <label for="card">
+                        <i class="fas fa-credit-card"></i>
+                        بطاقة مصرفية
+                    </label>
+                </div>
+            </div>
+            
+            <div id="cardDetails" class="card-details" style="display: none;">
+                <div class="form-group">
+                    <label for="cardNumber">رقم البطاقة</label>
+                    <input type="text" id="cardNumber" name="cardNumber" placeholder="xxxx xxxx xxxx xxxx">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiryDate">تاريخ الانتهاء</label>
+                        <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY">
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" name="cvv" placeholder="xxx">
+                    </div>
+                </div>
+            </div>
+
+            <div class="customer-info">
+                <h3>معلومات التوصيل</h3>
+                <div class="form-group">
+                    <label for="customerName">الاسم الكامل</label>
+                    <input type="text" id="customerName" name="customerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">عنوان التوصيل</label>
+                    <textarea id="address" name="address" required></textarea>
+                </div>
+            </div>
+
+            <button id="submitOrder" class="checkout-button">
+                إتمام الطلب
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+    </main>
+
+   <!-- Footer -->
+   <footer>
+    <div class="footer-content">
+        <p>جميع الحقوق محفوظة &copy; <span>FLONA SWETS</span> 2025 &hearts;</p>
+    </div>
+</footer>
+
+    <script src="js/userManager.js"></script>
+    <script src="js/cartManager.js"></script>
+    <script>
+        // Cart functionality
+        const cartManager = new CartManager();
+
+        // Render cart items
+        function renderCart() {
+            const tbody = document.querySelector('.cart-table tbody');
+            const totalAmount = document.querySelector('.total-amount');
+            const items = cartManager.getItems();
+            
+            if (items.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 2rem;">
+                            <i class="fas fa-shopping-cart" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem; display: block;"></i>
+                            <p>سلة المشتريات فارغة</p>
+                            
+                        </td>
+                    </tr>
+                `;
+                totalAmount.textContent = 'المجموع الكلي: 0.0 دينار';
+                document.querySelector('.payment-section').style.display = 'none';
+                return;
+            }
+
+            document.querySelector('.payment-section').style.display = 'block';
+            tbody.innerHTML = items.map(item => `
+                <tr data-id="${item.id}">
+                    <td>${item.name}</td>
+                    <td>${item.price.toFixed(1)} دينار</td>
+                    <td>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn decrease">-</button>
+                            <span class="quantity-display">${item.quantity}</span>
+                            <button class="quantity-btn increase">+</button>
+                        </div>
+                    </td>
+                    <td>${(item.price * item.quantity).toFixed(1)} دينار</td>
+                    <td>
+                        <button class="remove-item">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            totalAmount.textContent = `المجموع الكلي: ${cartManager.getTotal().toFixed(1)} دينار`;
+        }
+
+        // Setup event listeners
+        document.querySelector('.cart-table tbody').addEventListener('click', (e) => {
+            const tr = e.target.closest('tr');
+            if (!tr) return;
+
+            const itemId = tr.dataset.id;
+            
+            if (e.target.closest('.increase')) {
+                cartManager.updateQuantity(itemId, 1);
+                renderCart();
+            } else if (e.target.closest('.decrease')) {
+                cartManager.updateQuantity(itemId, -1);
+                renderCart();
+            } else if (e.target.closest('.remove-item')) {
+                if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+                    cartManager.removeItem(itemId);
+                    renderCart();
+                }
+            }
+        });
+
+        // Handle payment method change
+        document.querySelectorAll('input[name="paymentMethod"]').forEach(method => {
+            method.addEventListener('change', () => {
+                const cardDetails = document.getElementById('cardDetails');
+                cardDetails.style.display = method.value === 'card' ? 'block' : 'none';
+            });
+        });
+
+        // Handle order submission
+        document.getElementById('submitOrder').addEventListener('click', async () => {
+            const items = cartManager.getItems();
+            if (items.length === 0) {
+                alert('السلة فارغة');
+                return;
+            }
+
+            const customerName = document.getElementById('customerName').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+
+            if (!customerName || !phone || !address) {
+                alert('يرجى ملء جميع الحقول المطلوبة');
+                return;
+            }
+
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            const orderData = {
+                items: items,
+                total: cartManager.getTotal(),
+                customerName,
+                phone,
+                address,
+                paymentMethod,
+                orderDate: new Date().toISOString()
+            };
+
+            if (paymentMethod === 'card') {
+                const cardNumber = document.getElementById('cardNumber').value;
+                const expiryDate = document.getElementById('expiryDate').value;
+                const cvv = document.getElementById('cvv').value;
+
+                if (!cardNumber || !expiryDate || !cvv) {
+                    alert('يرجى ملء جميع بيانات البطاقة');
+                    return;
+                }
+
+                orderData.cardDetails = { cardNumber, expiryDate, cvv };
+            }
+
+            try {
+                const response = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(orderData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('تم تقديم طلبك بنجاح!');
+                    cartManager.clearCart();
+                    window.location.href = 'index.html';
+                } else {
+                    throw new Error(data.error || 'حدث خطأ أثناء تقديم الطلب');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert(error.message);
+            }
+        });
+
+        // Initialize cart display
+        renderCart();
+
+        // Add navigation button listeners
+        document.querySelectorAll('.nav-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                window.location.href = href;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرسائل والشكاوي - FLONA SWETS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .navbar {
+            background-color: #fff;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            color: #333;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .nav-button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .messages-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .messages-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .filter-button {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .filter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .filter-button[data-type="all"] {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .filter-button[data-type="all"].active {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+
+        .filter-button[data-type="complaint"] {
+            background: #fff5f5;
+            color: #c62828;
+        }
+
+        .filter-button[data-type="complaint"].active {
+            background: #ffebee;
+            border-color: #c62828;
+        }
+
+        .filter-button[data-type="feedback"] {
+            background: #f8f0fc;
+            color: #6a1b9a;
+        }
+
+        .filter-button[data-type="feedback"].active {
+            background: #f3e5f5;
+            border-color: #6a1b9a;
+        }
+
+        .filter-button[data-type="inquiry"] {
+            background: #f5f9ff;
+            color: #1565c0;
+        }
+
+        .filter-button[data-type="inquiry"].active {
+            background: #e3f2fd;
+            border-color: #1565c0;
+        }
+
+        .message-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .message-info {
+            flex-grow: 1;
+        }
+
+        .message-sender {
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .message-phone {
+            font-size: 0.9rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .message-phone i {
+            color: #4CAF50;
+        }
+
+        .message-phone a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .message-phone a:hover {
+            color: #4CAF50;
+        }
+
+        .message-date {
+            color: #666;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .message-date i {
+            color: #4CAF50;
+        }
+
+        .message-type {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .message-type.complaint {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .message-type.feedback {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .message-type.inquiry {
+            background: #f3e5f5;
+            color: #6a1b9a;
+        }
+
+        .message-content {
+            color: #333;
+            line-height: 1.5;
+            margin: 1rem 0;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+        }
+
+        .action-button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .reply-button {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .archive-button {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .logo img {
+            height: 50px;
+            animation: logoGlow 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        @keyframes logoGlow {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+            }
+            50% {
+                filter: drop-shadow(0 0 15px rgba(76, 175, 80, 0.9));
+            }
+            100% {
+                filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+            }
+        }
+
+        .clock {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-left: 1rem;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+            animation: clockGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes clockGlow {
+            0% {
+                box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+            }
+        }
+
+        .logout-button {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background: #cc0000;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .admin-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .admin-name {
+            color: #4CAF50;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .messages-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .filter-buttons {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://cdn.discordapp.com/attachments/1218265466573950989/1311009119259328600/FLONA_SWETS.png?ex=676ed8e3&is=676d8763&hm=21c82367544d5f71bf2be9968f11a6dbe676b679b2d60e310dcc124e2df3bda7&" alt="FLONA SWETS" style="height: 50px;">
+            </div>
+            <div class="nav-links">
+                <div class="clock" id="clock"></div>
+                <a href="admin-sales.html" class="nav-button">المبيعات اليومية</a>
+                <a href="admin-users.html" class="nav-button">حسابات المستخدمين</a>
+                <a href="admin.html" class="nav-button">الطلبات</a>
+                <a href="admin-messages.html" class="nav-button active">الرسائل والشكاوي</a>
+            </div>
+        </nav>
+
+        <div class="admin-header">
+            <div class="admin-info">
+                <h1>إدارة الرسائل والشكاوى</h1>
+                <span class="admin-name"></span>
+            </div>
+            <button onclick="logout()" class="logout-button">
+                <i class="fas fa-sign-out-alt"></i>
+                تسجيل الخروج
+            </button>
+        </div>
+
+        <div class="messages-container">
+            <div class="messages-header">
+                <h1>الرسائل والشكاوي</h1>
+                <div class="filter-buttons">
+                    <button class="filter-button active" data-type="all" onclick="filterMessages('all')">الكل</button>
+                    <button class="filter-button" data-type="complaint" onclick="filterMessages('complaint')">الشكاوي</button>
+                    <button class="filter-button" data-type="feedback" onclick="filterMessages('feedback')">التعليقات</button>
+                    <button class="filter-button" data-type="inquiry" onclick="filterMessages('inquiry')">الاستفسارات</button>
+                </div>
+            </div>
+
+            <div class="message-list" id="messageList">
+                <!-- Messages will be populated here -->
+                <div class="no-messages" id="noMessages" style="display: none;">
+                    لا توجد رسائل حالياً
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check admin authentication
+        function checkAuth() {
+            const adminSession = JSON.parse(localStorage.getItem('adminSession') || 'null');
+            
+            if (!adminSession) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+            
+            // Check if session is expired
+            if (new Date(adminSession.expiresAt) <= new Date()) {
+                localStorage.removeItem('adminSession');
+                window.location.href = 'admin-login.html';
+                return;
+            }
+            
+            // Update UI based on admin role
+            if (adminSession.role === 'manager') {
+                // Hide certain features for managers
+                document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+            }
+            
+            // Display admin username
+            const adminName = document.querySelector('.admin-name');
+            if (adminName) {
+                adminName.textContent = adminSession.username;
+            }
+        }
+
+        // Check authentication on page load
+        window.addEventListener('load', checkAuth);
+
+        // Add logout button functionality
+        function logout() {
+            localStorage.removeItem('adminSession');
+            window.location.href = 'admin-login.html';
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(dateString).toLocaleDateString('ar-SA', options);
+        }
+
+        function getMessageTypeClass(type) {
+            switch(type) {
+                case 'complaint': return 'complaint';
+                case 'feedback': return 'feedback';
+                case 'inquiry': return 'inquiry';
+                default: return '';
+            }
+        }
+
+        function getMessageTypeText(type) {
+            switch(type) {
+                case 'complaint': return 'شكوى';
+                case 'feedback': return 'تعليق';
+                case 'inquiry': return 'استفسار';
+                default: return '';
+            }
+        }
+
+        function createMessageCard(message) {
+            return `
+                <div class="message-card ${message.status}" data-type="${message.type}" data-id="${message.id}">
+                    <div class="message-header">
+                        <div class="message-info">
+                            <h3 class="message-sender">${message.name}</h3>
+                            <div class="message-phone">
+                                <i class="fas fa-phone"></i>
+                                <a href="tel:${message.phone}">${message.phone}</a>
+                            </div>
+                            <div class="message-date">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>${formatDate(message.date)}</span>
+                            </div>
+                        </div>
+                        <span class="message-type ${getMessageTypeClass(message.type)}">
+                            ${getMessageTypeText(message.type)}
+                        </span>
+                    </div>
+                    <div class="message-content">${message.content}</div>
+                    <div class="message-actions">
+                        <button class="action-button reply-button" onclick="callPhone('${message.phone}')">
+                            <i class="fas fa-phone"></i>
+                            اتصال
+                        </button>
+                        <button class="action-button archive-button" onclick="archiveMessage('${message.id}')">
+                            <i class="fas fa-archive"></i>
+                            أرشفة
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterMessages(type) {
+            const buttons = document.querySelectorAll('.filter-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const messages = document.querySelectorAll('.message-card');
+            messages.forEach(message => {
+                if (type === 'all' || message.dataset.type === type) {
+                    message.style.display = '';
+                } else {
+                    message.style.display = 'none';
+                }
+            });
+        }
+
+        function callPhone(phone) {
+            window.location.href = `tel:${phone}`;
+        }
+
+        async function archiveMessage(messageId) {
+            try {
+                // Get current messages
+                const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+                
+                // Remove the message with the given ID
+                const updatedMessages = messages.filter(msg => msg.id !== messageId);
+                
+                // Save back to localStorage
+                localStorage.setItem('messages', JSON.stringify(updatedMessages));
+                
+                // Remove the message card from DOM
+                const messageCard = document.querySelector(`[data-id="${messageId}"]`);
+                if (messageCard) {
+                    messageCard.remove();
+                }
+                
+                // Check if we need to show "no messages" message
+                checkNoMessages();
+            } catch (error) {
+                console.error('Error archiving message:', error);
+            }
+        }
+
+        function checkNoMessages() {
+            const messageList = document.getElementById('messageList');
+            const noMessages = document.getElementById('noMessages');
+            if (messageList.children.length <= 1) { // 1 because of the noMessages div
+                noMessages.style.display = 'block';
+            } else {
+                noMessages.style.display = 'none';
+            }
+        }
+
+        // Fetch and display messages
+        async function loadMessages() {
+            try {
+                // Get messages from localStorage
+                const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+                
+                const messageList = document.getElementById('messageList');
+                const noMessages = document.getElementById('noMessages');
+                
+                // Clear existing messages
+                messageList.innerHTML = '';
+                messageList.appendChild(noMessages);
+                
+                if (messages.length === 0) {
+                    noMessages.style.display = 'block';
+                    return;
+                }
+                
+                // Sort messages by date (newest first)
+                messages.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                messages.forEach(message => {
+                    messageList.insertAdjacentHTML('beforeend', createMessageCard(message));
+                });
+                
+                noMessages.style.display = 'none';
+            } catch (error) {
+                console.error('Error loading messages:', error);
+            }
+        }
+
+        // Load messages when page loads
+        document.addEventListener('DOMContentLoaded', loadMessages);
+
+        // Refresh messages every 30 seconds
+        setInterval(loadMessages, 30000);
+
+        // Clock functionality
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const ampm = hours >= 12 ? 'م' : 'ص';
+            
+            // Convert to 12-hour format
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            
+            // Format time with Arabic numerals
+            const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${ampm}`;
+            document.getElementById('clock').textContent = timeStr;
+        }
+
+        // Update clock every second
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial call
+    </script>
+</body>
+</html>

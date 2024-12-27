@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - FLONA SWEETS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --dark-color: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-header h1 {
+            color: var(--dark-color);
+        }
+
+        .orders-container {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .order-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-id {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .order-date {
+            color: #666;
+        }
+
+        .order-details {
+            margin: 1rem 0;
+        }
+
+        .order-items {
+            margin: 1rem 0;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .order-total {
+            font-weight: bold;
+            text-align: left;
+            margin-top: 1rem;
+            color: var(--dark-color);
+        }
+
+        .payment-method {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .payment-cash {
+            background: #e3ffe3;
+            color: #28a745;
+        }
+
+        .payment-card {
+            background: #e3f2ff;
+            color: #007bff;
+        }
+
+        .order-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-processing {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .customer-info {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .customer-info h4 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .no-orders {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            color: #666;
+        }
+
+        .navbar {
+            background-color: #fff;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            color: #333;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .nav-button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .logo img {
+            height: 50px;
+            animation: logoGlow 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .clock {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-left: 1rem;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+            animation: clockGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes clockGlow {
+            0% {
+                box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+            }
+        }
+
+        @keyframes logoGlow {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+            }
+            50% {
+                filter: drop-shadow(0 0 15px rgba(76, 175, 80, 0.9));
+            }
+            100% {
+                filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://cdn.discordapp.com/attachments/1218265466573950989/1311009119259328600/FLONA_SWETS.png?ex=676ed8e3&is=676d8763&hm=21c82367544d5f71bf2be9968f11a6dbe676b679b2d60e310dcc124e2df3bda7&" alt="FLONA SWETS" style="height: 50px;">
+            </div>
+            <div class="nav-links">
+                <div class="clock" id="clock"></div>
+                <a href="admin-sales.html" class="nav-button">المبيعات اليومية</a>
+                <a href="admin-users.html" class="nav-button">حسابات المستخدمين</a>
+                <a href="admin.html" class="nav-button active">الطلبات</a>
+                <a href="admin-messages.html" class="nav-button">الرسائل والشكاوي</a>
+            </div>
+        </nav>
+    
+        <div class="admin-header">
+            <h1>لوحة التحكم</h1>
+            <div>
+                <button class="btn btn-primary" onclick="refreshOrders()">
+                    <i class="fas fa-sync-alt"></i> تحديث الطلبات
+                </button>
+            </div>
+        </div>
+
+        <div id="orders-container" class="orders-container">
+            <!-- Orders will be loaded here dynamically -->
+        </div>
+    </div>
+
+    <script>
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return new Intl.DateTimeFormat('ar-LY', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            }).format(date);
+        }
+
+        function getStatusClass(status) {
+            switch(status) {
+                case 'pending': return 'status-pending';
+                case 'processing': return 'status-processing';
+                case 'completed': return 'status-completed';
+                default: return '';
+            }
+        }
+
+        function getStatusText(status) {
+            switch(status) {
+                case 'pending': return 'قيد الانتظار';
+                case 'processing': return 'قيد المعالجة';
+                case 'completed': return 'مكتمل';
+                default: return status;
+            }
+        }
+
+        function updateOrderStatus(orderId, newStatus) {
+            fetch('/api/orders/' + orderId + '/status', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: newStatus })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    refreshOrders();
+                } else {
+                    alert('حدث خطأ أثناء تحديث حالة الطلب');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('حدث خطأ أثناء تحديث حالة الطلب');
+            });
+        }
+
+        function createOrderCard(order) {
+            return `
+                <div class="order-card">
+                    <div class="order-header">
+                        <span class="order-id">#${order.id}</span>
+                        <span class="order-date">${formatDate(order.orderDate)}</span>
+                    </div>
+                    <div class="customer-info">
+                        <h4>معلومات العميل</h4>
+                        <p>الاسم: ${order.customerName}</p>
+                        <p>الهاتف: ${order.phone}</p>
+                        <p>العنوان: ${order.address}</p>
+                    </div>
+                    <div class="order-items">
+                        ${order.items.map(item => `
+                            <div class="order-item">
+                                <span>${item.name} × ${item.quantity}</span>
+                                <span>${item.price} د.ل</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="order-total">
+                        المجموع: ${order.total} د.ل
+                    </div>
+                    <div class="payment-method ${order.paymentMethod === 'cash' ? 'payment-cash' : 'payment-card'}">
+                        ${order.paymentMethod === 'cash' ? 'الدفع نقداً' : 'بطاقة مصرفية'}
+                    </div>
+                    <div class="order-status ${getStatusClass(order.status)}">
+                        ${getStatusText(order.status)}
+                    </div>
+                    <div class="order-actions">
+                        <button class="btn btn-primary" onclick="updateOrderStatus(${order.id}, 'processing')">
+                            قيد المعالجة
+                        </button>
+                        <button class="btn btn-secondary" onclick="updateOrderStatus(${order.id}, 'completed')">
+                            تم التسليم
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function refreshOrders() {
+            fetch('/api/orders')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('orders-container');
+                    if (data.orders && data.orders.length > 0) {
+                        container.innerHTML = data.orders
+                            .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate))
+                            .map(order => createOrderCard(order))
+                            .join('');
+                    } else {
+                        container.innerHTML = '<div class="no-orders">لا توجد طلبات حالياً</div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('orders-container').innerHTML = 
+                        '<div class="no-orders">حدث خطأ أثناء تحميل الطلبات</div>';
+                });
+        }
+
+        // Clock functionality
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const ampm = hours >= 12 ? 'م' : 'ص';
+            
+            // Convert to 12-hour format
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            
+            // Format time with Arabic numerals
+            const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${ampm}`;
+            document.getElementById('clock').textContent = timeStr;
+        }
+
+        // Update clock every second
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial call
+
+        // Load orders when page loads
+        document.addEventListener('DOMContentLoaded', refreshOrders);
+
+        // Refresh orders every minute
+        setInterval(refreshOrders, 60000);
+    </script>
+</body>
+</html>

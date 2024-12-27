@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المبيعات اليومية - FLONA SWETS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .admin-container {
+            padding: 1rem;
+        }
+
+        .navbar {
+            background-color: #fff;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            color: #333;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .nav-button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .sales-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .sales-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .sales-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 0.5rem 0;
+        }
+
+        .sales-chart {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .logo img {
+            height: 50px;
+            animation: logoGlow 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .clock {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-left: 1rem;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+            animation: clockGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes clockGlow {
+            0% {
+                box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+            }
+        }
+
+        @keyframes logoGlow {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+            }
+            50% {
+                filter: drop-shadow(0 0 15px rgba(76, 175, 80, 0.9));
+            }
+            100% {
+                filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .sales-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://cdn.discordapp.com/attachments/1218265466573950989/1311009119259328600/FLONA_SWETS.png?ex=676ed8e3&is=676d8763&hm=21c82367544d5f71bf2be9968f11a6dbe676b679b2d60e310dcc124e2df3bda7&" alt="FLONA SWETS" style="height: 50px;">
+            </div>
+            <div class="nav-links">
+                <div class="clock" id="clock"></div>
+                <a href="admin-sales.html" class="nav-button active">المبيعات اليومية</a>
+                <a href="admin-users.html" class="nav-button">حسابات المستخدمين</a>
+                <a href="admin.html" class="nav-button">الطلبات</a>
+                <a href="admin-messages.html" class="nav-button">الرسائل والشكاوي</a>
+            </div>
+        </nav>
+
+        <div class="sales-container">
+            <div class="sales-header">
+                <h1>المبيعات اليومية</h1>
+                <div class="date-selector">
+                    <input type="date" id="salesDate" onchange="updateSalesData()">
+                </div>
+            </div>
+
+            <div class="sales-stats">
+                <div class="stat-card">
+                    <h3>إجمالي المبيعات</h3>
+                    <div class="stat-value" id="totalSales">0 دينار</div>
+                </div>
+                <div class="stat-card">
+                    <h3>عدد الطلبات</h3>
+                    <div class="stat-value" id="orderCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>متوسط قيمة الطلب</h3>
+                    <div class="stat-value" id="avgOrderValue">0 دينار</div>
+                </div>
+            </div>
+
+            <div class="sales-chart">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Set default date to today
+        document.getElementById('salesDate').valueAsDate = new Date();
+
+        function updateSalesData() {
+            const date = document.getElementById('salesDate').value;
+            // Fetch sales data for the selected date
+            fetch(`/api/sales?date=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Update stats
+                    document.getElementById('totalSales').textContent = `${data.totalSales} دينار`;
+                    document.getElementById('orderCount').textContent = data.orderCount;
+                    document.getElementById('avgOrderValue').textContent = `${data.averageOrderValue} دينار`;
+                    
+                    // Update chart
+                    updateChart(data.hourlyData);
+                })
+                .catch(error => console.error('Error fetching sales data:', error));
+        }
+
+        // Initialize sales chart
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        let salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+                datasets: [{
+                    label: 'المبيعات بالساعة',
+                    data: Array(24).fill(0),
+                    borderColor: '#4CAF50',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        function updateChart(hourlyData) {
+            salesChart.data.datasets[0].data = hourlyData;
+            salesChart.update();
+        }
+
+        // Initial load
+        updateSalesData();
+
+        // Clock functionality
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const ampm = hours >= 12 ? 'م' : 'ص';
+            
+            // Convert to 12-hour format
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            
+            // Format time with Arabic numerals
+            const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${ampm}`;
+            document.getElementById('clock').textContent = timeStr;
+        }
+
+        // Update clock every second
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial call
+    </script>
+</body>
+</html>

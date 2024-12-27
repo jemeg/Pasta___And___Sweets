@@ -1,0 +1,28 @@
+{
+    "messages": [
+        {
+            "id": 1,
+            "name": "Ghazwan-MG",
+            "email": "almajal.cen191@gmail.com",
+            "message": "شسيشسي",
+            "status": "unread",
+            "createdAt": "2024-12-27 17:18:47.536227"
+        },
+        {
+            "id": 2,
+            "name": "Ghazwan-MG",
+            "email": "almajal.cen191@gmail.com",
+            "message": "رؤلاءلا",
+            "status": "unread",
+            "createdAt": "2024-12-27 17:23:34.829341"
+        },
+        {
+            "id": 3,
+            "name": "Ghazwan-MG",
+            "email": "almajal.cen191@gmail.com",
+            "message": "رءر",
+            "status": "unread",
+            "createdAt": "2024-12-27 17:31:53.707931"
+        }
+    ]
+}

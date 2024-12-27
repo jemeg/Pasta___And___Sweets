@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اتصل بنا - FLONA SWETS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .contact-container {
+            max-width: 800px;
+            margin: 120px auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.8rem;
+            border: 1px solid #fcbfbf;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.1);
+            outline: none;
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, var(--primary-color), #ff4081);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.2);
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.3);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(233, 30, 99, 0.05), rgba(255, 64, 129, 0.05));
+            border-radius: 12px;
+        }
+
+        .contact-info h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+        
+        /* Added styles for toast notification */
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #333;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        .toast.error {
+            background-color: #f44336;
+            color: #fff;
+        }
+        
+        .toast.success {
+            background-color: #4caf50;
+            color: #fff;
+        }
+        
+        /* Added styles for user menu */
+        .user-menu {
+            position: relative;
+        }
+        
+        .user-name {
+            cursor: pointer;
+        }
+        
+        .user-menu-content {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .user-menu-content.show-menu {
+            display: block;
+        }
+        
+        .user-menu-content a {
+            display: block;
+            padding: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+        
+        .user-menu-content a:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Message Type Styles */
+        #messageType {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+
+        #messageType:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        #messageType option {
+            padding: 10px;
+        }
+
+        #messageType option[value="inquiry"] {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        #messageType option[value="complaint"] {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        #messageType option[value="feedback"] {
+            background-color: #f3e5f5;
+            color: #6a1b9a;
+        }
+
+        /* Style for the selected option */
+        #messageType.inquiry {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border-color: #1565c0;
+        }
+
+        #messageType.complaint {
+            background-color: #ffebee;
+            color: #c62828;
+            border-color: #c62828;
+        }
+
+        #messageType.feedback {
+            background-color: #f3e5f5;
+            color: #6a1b9a;
+            border-color: #6a1b9a;
+        }
+
+        /* Form validation styles */
+        .form-group input:invalid,
+        .form-group textarea:invalid {
+            border-color: #ff0000;
+        }
+
+        .error-message {
+            color: #ff0000;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        /* Required field styles */
+        .form-group.error input,
+        .form-group.error textarea {
+            border-color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://cdn.discordapp.com/attachments/1218265466573950989/1311009119259328600/FLONA_SWETS.png?ex=676ed8e3&is=676d8763&hm=21c82367544d5f71bf2be9968f11a6dbe676b679b2d60e310dcc124e2df3bda7&" alt="FLONA SWETS">
+            </div>
+            <button class="mobile-menu-toggle" aria-label="القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <div class="nav-buttons">
+                    <a href="contact.html" class="nav-button active">اتصل بنا</a>
+                    <a href="login.html" class="nav-button">تسجيل حساب</a>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contact-container">
+        <div class="contact-form">
+            <h2>أرسل لنا رسالة</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">الاسم *</label>
+                    <input type="text" id="name" required>
+                    <div class="error-message">يرجى إدخال الاسم</div>
+                </div>
+                <div class="form-group">
+                    <label for="phone">رقم الهاتف *</label>
+                    <input type="tel" id="phone" required>
+                    <div class="error-message">يرجى إدخال رقم الهاتف</div>
+                </div>
+                <div class="form-group">
+                    <label for="messageType">نوع الرسالة</label>
+                    <select id="messageType">
+                        <option value="inquiry">استفسار</option>
+                        <option value="complaint">شكوى</option>
+                        <option value="feedback">تعليق</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">رسالتك *</label>
+                    <textarea id="message" required></textarea>
+                    <div class="error-message">يرجى كتابة رسالتك</div>
+                </div>
+                <button type="submit" class="submit-button">إرسال الرسالة</button>
+            </form>
+        </div>
+
+        <div class="contact-info">
+            <h2>معلومات التواصل</h2>
+            <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <p>0928617393</p>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <p>almajal.cen191@gmail.com</p>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <p>طرابلس - الخلة</p>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+        <p>جميع الحقوق محفوظة &copy; <span>FLONA SWETS</span> 2025 &hearts;</p>
+        </div>
+    </footer>
+    <script src="js/userManager.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Function to format date and time in Arabic
+        function formatDateTime() {
+            const now = new Date();
+            const formatter = new Intl.DateTimeFormat('ar-LY', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+            return formatter.format(now);
+        }
+
+        // Toast notification function
+        function showToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${isError ? 'error' : 'success'}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            // Hide and remove toast
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Handle contact form submission
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Reset all error states
+            const formGroups = this.querySelectorAll('.form-group');
+            formGroups.forEach(group => group.classList.remove('error'));
+            
+            // Get form elements
+            const nameInput = document.getElementById('name');
+            const phoneInput = document.getElementById('phone');
+            const messageInput = document.getElementById('message');
+            
+            // Validate required fields
+            let isValid = true;
+            
+            if (!nameInput.value.trim()) {
+                nameInput.parentElement.classList.add('error');
+                isValid = false;
+            }
+            
+            if (!phoneInput.value.trim()) {
+                phoneInput.parentElement.classList.add('error');
+                isValid = false;
+            }
+            
+            if (!messageInput.value.trim()) {
+                messageInput.parentElement.classList.add('error');
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                showToast('يرجى ملء الحقول المطلوبة', true);
+                return;
+            }
+            
+            const formData = {
+                id: Date.now().toString(),
+                name: nameInput.value.trim(),
+                phone: phoneInput.value.trim(),
+                type: document.getElementById('messageType').value,
+                content: messageInput.value.trim(),
+                date: formatDateTime(),
+                status: 'unread'
+            };
+            
+            try {
+                const existingMessages = JSON.parse(localStorage.getItem('messages') || '[]');
+                existingMessages.push(formData);
+                localStorage.setItem('messages', JSON.stringify(existingMessages));
+
+                showToast('تم إرسال رسالتك بنجاح!');
+                this.reset();
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            } catch (error) {
+                showToast('حدث خطأ في حفظ الرسالة. يرجى المحاولة مرة أخرى.', true);
+            }
+        });
+
+        // Check user login state and update UI
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelector('.nav-links');
+            const loginLink = navLinks.querySelector('a[href="login.html"]');
+            
+            if (userManager.isLoggedIn()) {
+                const user = userManager.getCurrentUser();
+                // Create user menu
+                const userMenuHTML = `
+                    <div class="user-menu">
+                        <div class="user-name">
+                            <span>${user.name}</span>
+                        </div>
+                        <div class="user-menu-content">
+                            <a href="#" class="account-link">
+                                <i class="fas fa-user"></i> حسابي
+                            </a>
+                            <a href="#" class="logout-link">
+                                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                if (loginLink) {
+                    loginLink.innerHTML = userMenuHTML;
+                    
+                    const userMenu = loginLink.querySelector('.user-menu');
+                    const userMenuButton = userMenu.querySelector('.user-name');
+                    const userMenuContent = userMenu.querySelector('.user-menu-content');
+                    
+                    // Toggle menu on click
+                    userMenuButton.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        userMenuContent.classList.toggle('show-menu');
+                    });
+                    
+                    // Close menu when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!userMenu.contains(e.target)) {
+                            userMenuContent.classList.remove('show-menu');
+                        }
+                    });
+                
+                    // Handle menu items
+                    userMenu.querySelector('.account-link').addEventListener('click', (e) => {
+                        e.preventDefault();
+                        alert('صفحة حسابي - قريباً');
+                    });
+                    
+                    userMenu.querySelector('.logout-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    userManager.logoutUser();
+                    window.location.reload();
+                });
+            }
+            }
+        });
+
+        // Add color change functionality to message type selector
+        document.getElementById('messageType').addEventListener('change', function() {
+            // Remove all previous classes
+            this.classList.remove('inquiry', 'complaint', 'feedback');
+            // Add the new class based on selected value
+            this.classList.add(this.value);
+        });
+    </script>
+</body>
+</html>
